@@ -1,0 +1,12 @@
+services:
+  # Contenedor de desarrollo
+  dev:
+    image: node:22-alpine
+    working_dir: /app
+    user: 1000:1000
+    command: tail -f /dev/null
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:3000
+    restart: unless-stopped
