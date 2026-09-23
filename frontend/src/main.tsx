@@ -6,11 +6,6 @@ import { BrowserRouter, HashRouter } from 'react-router'
 import './index.css'
 import AppRouter from '@router/AppRouter'
 
-const Router =
-  import.meta.env.VITE_ROUTER === 'hash'
-    ? HashRouter
-    : BrowserRouter
-
 const useRouter = import.meta.env.VITE_ROUTER;
 
 createRoot(document.getElementById('root')!).render(
