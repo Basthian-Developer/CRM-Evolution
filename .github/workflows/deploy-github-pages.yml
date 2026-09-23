@@ -43,9 +43,7 @@ jobs:
               uses: actions/configure-pages@v5
 
             - name: Generar build
-              run: npm run build
-              env:
-                VITE_BASE_PATH: /${{github.event.repository.name}}/
+              run: npm run build:github
             
             - name: Subir artefacto de github pages
               uses: actions/upload-pages-artifact@v3

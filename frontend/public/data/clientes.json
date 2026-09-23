@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cli-001",
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "email": "juan.perez@ejemplo.cl",
+    "telefono": "+56912345678",
+    "empresa": "Soluciones Andinas SpA",
+    "estado": "prospecto",
+    "fechaCreated": "2026-09-15T10:30:00",
+    "fechaUpdated": "2026-09-15T10:30:00"
+  },
+  {
+    "id": "cli-002",
+    "nombre": "Camila",
+    "apellido": "Rojas",
+    "email": "camila.rojas@ejemplo.cl",
+    "telefono": "+56987654321",
+    "empresa": "Comercial Biobío Ltda.",
+    "estado": "cliente",
+    "fechaCreated": "2026-08-20T14:15:00",
+    "fechaUpdated": "2026-09-18T09:45:00"
+  },
+  {
+    "id": "cli-003",
+    "nombre": "Matías",
+    "apellido": "Sepúlveda",
+    "email": "matias.sepulveda@ejemplo.cl",
+    "telefono": "+56945678901",
+    "estado": "inactivo",
+    "fechaCreated": "2026-07-10T08:20:00",
+    "fechaUpdated": "2026-09-01T16:30:00"
+  }
+]

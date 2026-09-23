@@ -5,14 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
+    "dev:json": "vite --host 0.0.0.0 --port 3000 --mode json",
+    "dev:api": "vite --host 0.0.0.0 --port 3000 --mode api",
+    "dev:github": "vite --host 0.0.0.0 --port 3000 --mode github-pages",
     "build": "tsc -b && vite build",
+    "build:json": "tsc -b && vite build --mode json",
+    "build:github": "tsc -b && vite build --mode github-pages",
+    "build:api": "tsc -b && vite build --mode api",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview --host 0.0.0.0 --port 3000 --mode json"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-query": "^5.103.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-router": "^8.4.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

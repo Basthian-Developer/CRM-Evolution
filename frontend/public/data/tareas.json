@@ -1,0 +1,54 @@
+[
+  {
+    "id": "tar-001",
+    "clienteId": "cli-001",
+    "titulo": "Preparar propuesta comercial",
+    "descripcion": "Preparar una propuesta según los servicios solicitados por Juan Pérez.",
+    "estado": "pendiente",
+    "prioridad": "alta",
+    "fechaLimited": "2026-09-24T17:00:00",
+    "fechaCreated": "2026-09-16T13:00:00",
+    "fechaCompleted": ""
+  },
+  {
+    "id": "tar-002",
+    "clienteId": "cli-001",
+    "titulo": "Enviar información de servicios",
+    "descripcion": "Enviar el catálogo y los detalles comerciales solicitados durante el primer contacto.",
+    "estado": "completada",
+    "prioridad": "media",
+    "fechaLimited": "2026-09-17T12:00:00",
+    "fechaCreated": "2026-09-16T11:00:00",
+    "fechaCompleted": "2026-09-16T12:15:00"
+  },
+  {
+    "id": "tar-003",
+    "clienteId": "cli-002",
+    "titulo": "Coordinar reunión de seguimiento",
+    "descripcion": "Confirmar disponibilidad de Camila Rojas para revisar los próximos pasos.",
+    "estado": "pendiente",
+    "prioridad": "media",
+    "fechaLimited": "2026-09-25T10:00:00",
+    "fechaCreated": "2026-09-18T16:00:00",
+    "fechaCompleted": ""
+  },
+  {
+    "id": "tar-004",
+    "clienteId": "cli-002",
+    "titulo": "Registrar preferencia de contacto",
+    "estado": "completada",
+    "prioridad": "baja",
+    "fechaCreated": "2026-09-18T16:10:00",
+    "fechaCompleted": "2026-09-18T16:20:00"
+  },
+  {
+    "id": "tar-005",
+    "clienteId": "cli-003",
+    "titulo": "Evaluar reactivación del cliente",
+    "descripcion": "Revisar el historial de Matías Sepúlveda y definir una propuesta de reactivación.",
+    "estado": "pendiente",
+    "prioridad": "baja",
+    "fechaCreated": "2026-09-21T09:00:00",
+    "fechaCompleted": ""
+  }
+]

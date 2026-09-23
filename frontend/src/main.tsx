@@ -1,10 +1,26 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import '@/index.css'
-import App from '@/App.tsx'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@config/query/queryClient'
+import { BrowserRouter, HashRouter } from 'react-router'
+import './index.css'
+import AppRouter from '@router/AppRouter'
+
+const useRouter = import.meta.env.VITE_ROUTER;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      {useRouter === 'hash' ? (
+        <HashRouter>
+          <AppRouter />
+        </HashRouter>
+      ) : (
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      )
+      }
+    </QueryClientProvider>
   </StrictMode>,
 )
