@@ -13,14 +13,14 @@
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
       "@assets/*": [
         "./src/assets/*"
       ],
       "@components/*": [
         "./src/components/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
       ],
       "@hooks/*": [
         "./src/hooks/*"
@@ -42,6 +42,13 @@
       ],
       "@utils/*": [
         "./src/utils/*"
+      ],
+      "@router/*": [
+        "./src/router/*"
+      ],
+      "@data-source/*": [
+        "./src/repositories/json/*",
+        "./src/repositories/api/*"
       ]
     },
     /* Bundler mode */

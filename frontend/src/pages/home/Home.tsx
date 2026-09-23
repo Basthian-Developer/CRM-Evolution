@@ -1,11 +1,76 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import heroImg from '@assets/hero.png'
 import reactLogo from '@assets/react.svg'
 import viteLogo from '@assets/vite.svg'
-import '@/App.css'
 
-function App() {
+import useClientes from '@hooks/useClientes'
+import useInteracciones from '@hooks/useInteracciones'
+import useTareas from '@hooks/useTareas'
+
+import '@pages/home/Home.css'
+
+function Home() {
   const [count, setCount] = useState(0)
+
+  const { data: dataClientes, isLoading: loadingClientes, error: errorClientes } = useClientes();
+  const clientes = dataClientes ?? [];
+
+  const {data: dataInteracciones, isLoading: loadingInteracciones, error: errorInteracciones} = useInteracciones();
+  const interacciones = dataInteracciones ?? [];
+
+  const { data: dataTareas, isLoading: loadingTareas, error: errorTareas } = useTareas();
+
+  useEffect(() => {
+    if (loadingClientes) {
+      return;
+    }
+    if (errorClientes) {
+      console.error(errorClientes);
+      return;
+    }
+
+    if (clientes.length === 0) {
+      console.log("No hay datos");
+      return;
+    }
+
+    console.log("Clientes", clientes);
+  }, [clientes, loadingClientes, errorClientes]);
+
+  useEffect(() => {
+    if (loadingInteracciones) {
+      return;
+    }
+    if (errorInteracciones) {
+      console.error(errorInteracciones);
+      return;
+    }
+
+    if (interacciones.length === 0) {
+      console.log("No hay datos");
+      return;
+    }
+
+    console.log("Interacciones",interacciones);
+  }, [interacciones, loadingInteracciones, errorInteracciones]);
+
+  useEffect(() => {
+    if (loadingTareas) {
+      return;
+    }
+    if (errorTareas) {
+      console.error(errorTareas);
+      return;
+    }
+
+    const tareas = dataTareas ?? [];
+    if (tareas.length === 0) {
+      console.log("No hay datos");
+      return;
+    }
+
+    console.log("Tareas", tareas);
+  }, [dataTareas, loadingTareas, errorTareas]);
 
   return (
     <>
@@ -35,7 +100,7 @@ function App() {
       <section id="next-steps">
         <div id="docs">
           <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
+            <use href={`${import.meta.env.BASE_URL}icons.svg#documentation-icon`}></use>
           </svg>
           <h2>Documentation</h2>
           <p>Your questions, answered</p>
@@ -56,7 +121,7 @@ function App() {
         </div>
         <div id="social">
           <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
+            <use href={`${import.meta.env.BASE_URL}icons.svg#social-icon`}></use>
           </svg>
           <h2>Connect with us</h2>
           <p>Join the Vite community</p>
@@ -68,7 +133,7 @@ function App() {
                   role="presentation"
                   aria-hidden="true"
                 >
-                  <use href="/icons.svg#github-icon"></use>
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#github-icon`}></use>
                 </svg>
                 GitHub
               </a>
@@ -80,7 +145,7 @@ function App() {
                   role="presentation"
                   aria-hidden="true"
                 >
-                  <use href="/icons.svg#discord-icon"></use>
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#discord-icon`}></use>
                 </svg>
                 Discord
               </a>
@@ -92,7 +157,7 @@ function App() {
                   role="presentation"
                   aria-hidden="true"
                 >
-                  <use href="/icons.svg#x-icon"></use>
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#x-icon`}></use>
                 </svg>
                 X.com
               </a>
@@ -104,7 +169,7 @@ function App() {
                   role="presentation"
                   aria-hidden="true"
                 >
-                  <use href="/icons.svg#bluesky-icon"></use>
+                  <use href={`${import.meta.env.BASE_URL}icons.svg#bluesky-icon`}></use>
                 </svg>
                 Bluesky
               </a>
@@ -119,4 +184,4 @@ function App() {
   )
 }
 
-export default App
+export default Home
