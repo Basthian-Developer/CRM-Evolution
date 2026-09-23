@@ -11,12 +11,21 @@ const Router =
     ? HashRouter
     : BrowserRouter
 
+const useRouter = import.meta.env.VITE_ROUTER;
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <AppRouter />
-      </Router>
+      {useRouter === 'hash' ? (
+        <HashRouter>
+          <AppRouter />
+        </HashRouter>
+      ) : (
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      )
+      }
     </QueryClientProvider>
   </StrictMode>,
 )
