@@ -1,18 +1,25 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes } from 'react-router';
 
-import Home from "@pages/home/Home";
+import Login from '@pages/Login';
+import Home from '@pages/Home';
+import DashboardView from '@pages/views/Dashboard';
+import ClientesView from '@pages/views/Clientes';
+import HistorialView from '@pages/views/Historial';
+import TareasView from '@pages/views/Tareas';
 
+// Login es una página independiente; Home contiene las vistas del CRM.
 export default function AppRouter() {
-    return (
-        <Routes>
-            <Route path="/" element={<Home />} >
-                <Route
-                    path="/inicio" element={<h1>Inicio</h1>} />
-                <Route
-                    path="/clientes" element={<h1>Clientes</h1>} />
-                <Route
-                    path="/interacciones" element={<h1>Interacciones</h1>} />
-            </Route>
-        </Routes>
-    );
+  return (
+    <Routes>
+      {/* Página de acceso. */}
+      <Route path="/" element={<Login />} />
+      {/* Layout compartido y sus vistas. */}
+      <Route path="/dashboard" element={<Home />}>
+        <Route index element={<DashboardView />} />
+        <Route path="clientes" element={<ClientesView />} />
+        <Route path="interacciones" element={<HistorialView />} />
+        <Route path="tareas" element={<TareasView />} />
+      </Route>
+    </Routes>
+  );
 }

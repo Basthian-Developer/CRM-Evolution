@@ -1,16 +1,15 @@
-import type { Interaccion } from "@models/Interaccion";
-import type InteraccionRepository from "@repositories/interface/InteraccionRepository";
+import type { Interaccion } from '@models/Interaccion';
+import type InteraccionRepository from '@repositories/interface/InteraccionRepository';
 
-export default class InteraccionService{
-    private readonly repository: InteraccionRepository;
+// Delega la lectura al repositorio recibido, sin depender de su origen.
+export default class InteraccionService {
+  private readonly repository: InteraccionRepository;
 
-    constructor(
-        repository: InteraccionRepository
-    ){
-        this.repository = repository;
-    }
+  constructor(repository: InteraccionRepository) {
+    this.repository = repository;
+  }
 
-    async getAll(): Promise<Interaccion[]>{
-        return this.repository.getAll();
-    }
+  async getAll(): Promise<Interaccion[]> {
+    return this.repository.getAll();
+  }
 }

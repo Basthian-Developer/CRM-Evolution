@@ -1,71 +1,145 @@
+/* 1. Fuentes y motor de utilidades. Los imports deben ir primero. */
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600&family=Urbanist:wght@600;700;800&display=swap');
 @import 'tailwindcss';
 
-
+/* 2. Tema base: vainilla y jade.
+   @theme expone estas variables como utilidades Tailwind (bg-panel, text-accent…). */
 @theme {
-  /* Modo claro */
-  --color-background: #EDEAE4;
-  --color-panel: #F7F6F2;
-  --color-border: #D7D3CA;
-  --color-foreground: #2B3531;
-
-  /* Colores principales */
-  --color-primario: #041C08;
-  --color-secundario: oklch(0.81 0.035 165);
-
-  /* Modo nocturno */
-  --color-dark-background: #101512;
-  --color-dark-panel: #171D19;
-  --color-dark-border: #29322D;
-  --color-dark-foreground: #E8ECE9;
-  --color-dark-sidebar: #06150A;
+  /* Tipografía general para texto, campos y botones. */
+  --font-sans: 'Epilogue', sans-serif;
+  /* Superficies, bordes y jerarquía del texto. */
+  --color-background: #faf7e9;
+  --color-panel: #fffef8;
+  --color-border: #dddccd;
+  --color-foreground: #35423d;
+  --color-muted: #65716a;
+  --color-subtle: #f0eedd;
+  /* Acciones principales, sus fondos suaves y texto de contraste. */
+  --color-accent: #258474;
+  --color-accent-soft: #e1f0e7;
+  --color-on-accent: #ffffff;
+  /* Etiquetas de prioridad y estados que requieren atención. */
+  --color-warning: #895628;
+  --color-warning-soft: #f5e8d2;
+  /* Colores de navegación conservados para el Sidebar existente. */
+  --color-primario: #203f36;
+  --color-secundario: #b9dbca;
+  /* Paleta grafito y coral, compartida por modo nocturno y hero del Login. */
+  --color-dark-accent: #ec9c87;
+  --color-dark-background: #232627;
+  --color-dark-panel: #2c3031;
+  --color-dark-border: #454b4c;
+  --color-dark-foreground: #ecece7;
+  --color-dark-sidebar: #1b1e1f;
 }
 
-
-html,
-body,
-#root {
+/* 3. Tema nocturno por contenedor.
+   Home lo activa con su botón; Login lo aplica solo al hero izquierdo.
+   Las utilidades Tailwind heredan los nuevos valores sin duplicar clases. */
+.dark-main {
+  /* Adapta también los controles nativos del navegador. */
+  color-scheme: dark;
+  /* Reasigna los tokens semánticos a las superficies oscuras. */
+  --color-background: var(--color-dark-background);
+  --color-panel: var(--color-dark-panel);
+  --color-border: var(--color-dark-border);
+  --color-foreground: var(--color-dark-foreground);
+  --color-muted: #b5bcb9;
+  --color-subtle: #353a3b;
+  /* Coral para acciones y jade sustituido dentro de este contenedor. */
+  --color-accent: var(--color-dark-accent);
+  --color-accent-soft: #483731;
+  --color-on-accent: #292523;
+  --color-warning: #e4c18e;
+  --color-warning-soft: #443c30;
+  --color-secundario: var(--color-dark-accent);
+  /* Pinta el contenedor y establece el color heredado por sus hijos. */
   background-color: var(--color-background);
   color: var(--color-foreground);
-  min-height: 100dvh;
 }
 
-
-/* MODO NOCTURNO */
-
-.dark-main {
-  background-color: var(--color-dark-background);
-  color: var(--color-dark-foreground);
-}
-
+/* Fondo más profundo para distinguir la navegación en modo nocturno. */
 .dark-sidebar {
   background-color: var(--color-dark-sidebar);
 }
 
+/* 4. Base global. Esta capa permite sobrescribir tamaños con Tailwind. */
+@layer base {
+  /* Altura mínima de pantalla y colores iniciales de la aplicación. */
+  html,
+  body,
+  #root {
+    min-height: 100dvh;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
 
-/* TIPOGRAFÍA */
+  /* Elimina el margen nativo del documento. */
+  body {
+    margin: 0;
+  }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Urbanist', sans-serif;
+  /* Urbanist en títulos; Epilogue se hereda desde --font-sans. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Urbanist', sans-serif;
+  }
+  h1 {
+    font-size: 4rem;
+    font-weight: 800;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  /* Indicación de interacción para botones; cada vista puede sobrescribirla. */
+  button {
+    cursor: pointer;
+  }
+
+  /* Foco visible al navegar con teclado, coherente con ambos temas. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  /* Selección de texto con el acento del contenedor actual. */
+  ::selection {
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
 }
 
-h1 {
-  font-size: 4rem;
-  font-weight: 800;
+/* 5. Layout del CRM: permite reducir el contenido dentro de flex,
+   para que las tablas tengan scroll interno sin ensanchar la página.
+   Login usa exclusivamente utilidades Tailwind para sus columnas y decoración. */
+.main {
+  min-width: 0;
 }
 
-h2 {
-  font-size: 2rem;
-  font-weight: 800;
+/* 6. Entrada de vistas: fundido y desplazamiento breve al cambiar el pathname.
+   No se ejecuta al filtrar tablas, cambiar el tema o contraer el Sidebar. */
+.view-transition {
+  animation: view-enter 200ms ease-out;
 }
 
-span,
-label,
-p {
-  font-family: 'Epilogue', sans-serif;
+@keyframes view-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respeta la preferencia de accesibilidad para reducir movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  .view-transition {
+    animation: none;
+  }
 }

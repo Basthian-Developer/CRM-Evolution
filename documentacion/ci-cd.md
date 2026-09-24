@@ -52,10 +52,10 @@ El workflow [deploy-github-pages.yml](../.github/workflows/deploy-github-pages.y
 El job `build` prepara Node.js 22, ejecuta `npm ci`, configura Pages y genera el build con:
 
 ```yaml
-run: npm run build
-env:
-  VITE_BASE_PATH: /${{github.event.repository.name}}/
+run: npm run build:github
 ```
+
+Este comando carga `.env.github-pages`: fuente JSON, `HashRouter` y base `/CRM-Evolution/`. La demo permite entrar sin credenciales.
 
 Después sube `frontend/dist` como artefacto de Pages. El job `deploy` depende de `build` y publica ese artefacto mediante `actions/deploy-pages@v4` en el entorno `github-pages`. La URL publicada se obtiene de la salida del paso de despliegue.
 
@@ -72,21 +72,27 @@ En [vite.config.ts](../frontend/vite.config.ts), Vite carga las variables del mo
 | Entorno | Ruta base |
 | --- | --- |
 | Desarrollo sin variable | `/` |
-| Workflow de Pages | `/<nombre-del-repositorio>/` |
+| Workflow de Pages (`.env.github-pages`) | `/CRM-Evolution/` |
 | Build para este repositorio | `/CRM-Evolution/` |
 
-La ruta base permite que los recursos procesados por Vite se referencien bajo el subdirectorio del sitio. Se aplica al generar el build: cambiarla requiere volver a construir y desplegar. Si el sitio se publica en la raíz de un dominio, habrá que ajustar el valor del workflow a `/`.
+La ruta base permite que los recursos procesados por Vite se referencien bajo el subdirectorio del sitio. Se aplica al generar el build: cambiarla requiere volver a construir y desplegar. Si cambia el nombre del repositorio o el sitio se publica en la raíz de un dominio, ajustar `VITE_BASE_PATH` en `.env.github-pages` antes de compilar. El workflow actual no calcula la base a partir del nombre del repositorio.
 
 Para reproducir el build de Pages desde `frontend/` en Bash:
 
 ```bash
-VITE_BASE_PATH=/CRM-Evolution/ npm run build
-npm run preview -- --port 4173
+npm run build:github
+npm run preview -- --mode github-pages --port 4173
 ```
 
 Abrir `http://localhost:4173/CRM-Evolution/`.
 
-Las rutas absolutas escritas directamente en JSX, como `/icons.svg`, siguen apuntando a la raíz del dominio. Para recursos de `public/`, usar la base de Vite, por ejemplo `${import.meta.env.BASE_URL}icons.svg`, cuando deban funcionar bajo el subdirectorio. La plantilla actual aún contiene referencias `/icons.svg`; configurar `base` no modifica automáticamente esas cadenas.
+Las rutas absolutas escritas directamente en JSX, como `/icons.svg`, siguen apuntando a la raíz del dominio. Para recursos de `public/`, usar la base de Vite, por ejemplo `${import.meta.env.BASE_URL}icons.svg`, cuando deban funcionar bajo el subdirectorio. Los repositorios JSON ya construyen sus URLs con `import.meta.env.BASE_URL` para cargar los archivos de `public/data`.
+
+## Rutas en Pages
+
+`VITE_ROUTER=hash` hace que las rutas del CRM se representen después de `#`, por ejemplo `/CRM-Evolution/#/dashboard/tareas`. Esto permite abrir o recargar las vistas sin requerir reescrituras del servidor estático. La página Login está en `/CRM-Evolution/` o `/CRM-Evolution/#/`.
+
+No cambiar solamente `preview` a modo GitHub para probar el despliegue: primero generar el artefacto con `build:github`. El preview sirve el resultado ya compilado.
 
 ## Diagnóstico
 
