@@ -14,3 +14,9 @@ export interface Tarea {
 export type EstadoTask = 'pendiente' | 'completada';
 
 export type PrioridadTask = 'baja' | 'media' | 'alta';
+
+// Campos que se solicitan al crear un registro.
+export type NuevaTarea = Pick<
+  Tarea,
+  'clienteId' | 'titulo' | 'descripcion' | 'prioridad' | 'fechaLimited'
+>;

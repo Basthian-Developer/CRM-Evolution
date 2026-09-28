@@ -26,7 +26,7 @@ function Home() {
     <>
       {/* Pantalla principal */}
       <div
-        className={`flex min-h-screen items-start transition-all duration-300 ${modoNocturno ? 'dark-main' : ''}`}
+        className={`flex min-h-screen flex-col items-stretch md:flex-row md:items-start transition-all duration-300 ${modoNocturno ? 'dark-main' : ''}`}
       >
         {/* Menú lateral persistente entre cambios de vista. */}
         <Sidebar

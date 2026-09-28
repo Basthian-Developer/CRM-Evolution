@@ -1,18 +1,14 @@
-import type { Tarea } from '@models/Tarea';
+import type { Tarea, NuevaTarea } from '@models/Tarea';
 import type TareaRepository from '@repositories/interface/TareaRepository';
+import { demoStore } from './demoStore';
 
-// Lee los datos de demostración desde la carpeta public/data.
+// Solo el alias JSON utiliza este almacén temporal; la API queda independiente.
 export default class TareaRepositoryImpl implements TareaRepository {
   async getAll(): Promise<Tarea[]> {
-    // BASE_URL permite servir la demo también desde GitHub Pages.
-    const response = await fetch(`${import.meta.env.BASE_URL}data/tareas.json`);
-
-    // Propaga el error para que el hook pueda informar a la vista.
-    if (!response.ok) {
-      throw new Error(`Error al consultar tareas.json: ${response.status}`);
-    }
-
-    const data: Tarea[] = await response.json();
-    return data;
+    return demoStore.tareas();
+  }
+  // La fuente seleccionada se encarga de guardar los cambios.
+  async crear(entrada: NuevaTarea): Promise<void> {
+    await demoStore.crearTarea(entrada);
   }
 }

@@ -1,3 +1,4 @@
+import FormularioTarea from '@components/forms/FormularioTarea';
 import type { Cliente } from '@models/Cliente';
 import Table, { type TableColumn } from '@components/table';
 import { useCallback, useMemo, useState } from 'react';
@@ -9,6 +10,7 @@ import type { Tarea, EstadoTask, PrioridadTask } from '@models/Tarea';
 const panel = 'rounded-2xl border border-border bg-panel';
 const campo =
   'rounded-xl border border-border bg-panel px-3 py-2.5 text-sm text-foreground';
+
 // Permite buscar sin distinguir mayúsculas ni tildes.
 const normalizar = (texto: string) =>
   texto
@@ -220,6 +222,11 @@ export default function Tareas() {
         </p>
       </header>
 
+      {/* Formularios independientes de la fuente de datos. */}
+      {!consultaClientes.isLoading &&
+        !consultaClientes.isError &&
+        !consultaTareas.isLoading &&
+        !consultaTareas.isError && <FormularioTarea clientes={clientes} />}
       {/* Resumen de los registros, antes de aplicar filtros. */}
       <section
         className="mb-6 grid gap-4 sm:grid-cols-3"

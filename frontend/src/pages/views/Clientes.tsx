@@ -1,5 +1,7 @@
+import ClienteDetalles from '@components/ClienteDetalles';
+import FormulariosClientes from '@components/forms/FormulariosClientes';
 import Table, { type TableColumn } from '@components/table';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Users, Search } from 'lucide-react';
 import type { EstadoCliente } from '@models/Cliente';
 import type { ReactNode } from 'react';
@@ -189,11 +191,35 @@ const columnas: TableColumn<Cliente>[] = [
 ];
 
 export default function Clientes() {
+  const contenedor = useRef<HTMLDivElement>(null);
+  const [clienteId, setClienteId] = useState<string | null>(null);
+  // Solo guarda el ID: el panel recibe los datos actualizados desde la consulta.
+  const columnasConAcciones = useMemo<TableColumn<Cliente>[]>(
+    () => [
+      ...columnas,
+      {
+        id: 'acciones',
+        header: 'Acciones',
+        cell: ({ row }) => (
+          <button
+            type="button"
+            onClick={() => setClienteId(row.original.id)}
+            aria-label={`Ver detalles de ${row.original.nombre} ${row.original.apellido}`}
+            className="whitespace-nowrap rounded-lg bg-accent-soft px-3 py-2 text-sm font-medium text-accent hover:bg-accent hover:text-on-accent"
+          >
+            Ver detalles
+          </button>
+        ),
+      },
+    ],
+    [],
+  );
   const [busqueda, setBusqueda] = useState('');
   const [estado, setEstado] = useState<EstadoCliente | 'todos'>('todos');
 
   const { data, error, isLoading, refetch } = useClientes();
   const clientes: Cliente[] = data ?? CLIENTES_VACIOS;
+  const seleccionado = clientes.find((cliente) => cliente.id === clienteId);
 
   // Conserva la referencia de los resultados para evitar reinicios de la tabla.
   const visibles = useMemo(
@@ -209,13 +235,28 @@ export default function Clientes() {
   );
 
   return (
-    <div className="mx-auto w-full max-w-7xl p-4 text-foreground sm:p-8 lg:p-10">
+    <div
+      ref={contenedor}
+      tabIndex={-1}
+      className="mx-auto w-full max-w-7xl p-4 text-foreground sm:p-8 lg:p-10"
+    >
+      {/* Ficha lateral del cliente seleccionado, sin abandonar el listado. */}
+      {seleccionado && (
+        <ClienteDetalles
+          key={seleccionado.id}
+          cliente={seleccionado}
+          onClose={() => setClienteId(null)}
+          focoAlternativo={contenedor}
+        />
+      )}
       {/* Título y contexto de la vista. */}
       <Cabecera
         seccion="Relaciones que crecen"
         titulo="Clientes"
         descripcion="Cada nombre, una historia. Tu cartera de contactos en un solo lugar."
       />
+      {/* Formularios independientes de la fuente de datos. */}
+      {!isLoading && !error && <FormulariosClientes />}
       {/* Resumen de los registros, antes de aplicar filtros. */}
       <section
         className="mb-6 grid gap-4 sm:grid-cols-3"
@@ -267,7 +308,7 @@ export default function Clientes() {
         </div>
         {/* Tabla compartida: columnas y datos definidos en esta vista. */}
         <Table
-          columns={columnas}
+          columns={columnasConAcciones}
           data={visibles}
           caption="Clientes con empresa, contacto, estado y última actualización"
           isLoading={isLoading}
