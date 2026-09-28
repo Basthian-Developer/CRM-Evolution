@@ -12,3 +12,9 @@ export interface Cliente {
 }
 
 export type EstadoCliente = 'prospecto' | 'cliente' | 'inactivo';
+
+// Campos que se solicitan al crear un registro.
+export type NuevoCliente = Pick<
+  Cliente,
+  'nombre' | 'apellido' | 'email' | 'telefono' | 'empresa' | 'estado'
+>;

@@ -58,9 +58,29 @@
   color: var(--color-foreground);
 }
 
-/* Fondo más profundo para distinguir la navegación en modo nocturno. */
+/* Fondo del Sidebar: luz suave en la cabecera y degradado jade hacia el pie.
+   Variables locales para mantener el tratamiento visual en ambos temas. */
+.sidebar {
+  --sidebar-top: #294f44;
+  --sidebar-bottom: #132d28;
+  --sidebar-glow: #b9dbca24;
+  background-color: var(--color-primario);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, var(--sidebar-glow), transparent 65%),
+    linear-gradient(165deg, var(--sidebar-top), var(--sidebar-bottom));
+}
+
+/* Grafito con un reflejo coral en modo nocturno. */
 .dark-sidebar {
+  --sidebar-top: #303031;
+  --sidebar-bottom: #191d1e;
+  --sidebar-glow: #ec9c8720;
   background-color: var(--color-dark-sidebar);
+}
+
+/* Brillo discreto sobre el acento del enlace activo, sin cambiar su contraste. */
+.sidebar-link-active {
+  background-image: linear-gradient(120deg, #ffffff14, transparent 70%);
 }
 
 /* 4. Base global. Esta capa permite sobrescribir tamaños con Tailwind. */
@@ -140,6 +160,85 @@
 /* Respeta la preferencia de accesibilidad para reducir movimiento. */
 @media (prefers-reduced-motion: reduce) {
   .view-transition {
+    animation: none;
+  }
+}
+
+/* Ficha del cliente: entrada lateral desde el borde derecho de la pantalla. */
+.cliente-detalles[open] {
+  animation: detalle-entrar 250ms ease-out;
+}
+
+@keyframes detalle-entrar {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cliente-detalles[open] {
+    animation: none;
+  }
+}
+
+/* Apertura de formularios y confirmaciones; el hook espera la salida antes de cerrar. */
+.form-modal[open] {
+  animation: modal-entrar 220ms ease-out;
+}
+.form-modal[open]::backdrop,
+.cliente-detalles[open]::backdrop {
+  animation: fondo-entrar 220ms ease-out;
+}
+.form-modal[data-cerrando]::backdrop,
+.cliente-detalles[data-cerrando]::backdrop {
+  animation: fondo-salir 220ms ease-in forwards;
+}
+.confirmacion-estado {
+  animation: modal-entrar 220ms ease-out;
+}
+
+/* No permite iniciar otra operación durante la salida del diálogo. */
+dialog[data-cerrando] {
+  pointer-events: none;
+}
+
+@keyframes modal-entrar {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fondo-entrar {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fondo-salir {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-modal[open],
+  .confirmacion-estado,
+  .form-modal[open]::backdrop,
+  .cliente-detalles[open]::backdrop {
     animation: none;
   }
 }

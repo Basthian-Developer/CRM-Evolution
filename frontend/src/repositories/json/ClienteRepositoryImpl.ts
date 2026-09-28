@@ -1,21 +1,17 @@
-import type { Cliente } from '@models/Cliente';
+import type { Cliente, NuevoCliente, EstadoCliente } from '@models/Cliente';
 import type ClienteRepository from '@repositories/interface/ClienteRepository';
+import { demoStore } from './demoStore';
 
-// Lee los datos de demostración desde la carpeta public/data.
+// Solo el alias JSON utiliza este almacén temporal; la API queda independiente.
 export default class ClienteRepositoryImpl implements ClienteRepository {
   async getAll(): Promise<Cliente[]> {
-    // BASE_URL permite servir la demo también desde GitHub Pages.
-    const response = await fetch(
-      `${import.meta.env.BASE_URL}data/clientes.json`,
-    );
-
-    // Propaga el error para que el hook pueda informar a la vista.
-    if (!response.ok) {
-      throw new Error(`Error al consultar clientes.json: ${response.status}`);
-    }
-
-    const data: Cliente[] = await response.json();
-
-    return data;
+    return demoStore.clientes();
+  }
+  // La fuente seleccionada se encarga de guardar los cambios.
+  async crear(entrada: NuevoCliente): Promise<void> {
+    await demoStore.crearCliente(entrada);
+  }
+  async cambiarEstado(id: string, estado: EstadoCliente): Promise<void> {
+    await demoStore.cambiarEstado(id, estado);
   }
 }
